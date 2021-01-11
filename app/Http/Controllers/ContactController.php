@@ -9,12 +9,22 @@ class ContactController extends Controller
 {
     public function getIndex()
     {
-        $data = Contact::latest()->get();
         return view('contact',compact('data'));
+    }
+
+    public function getData()
+    {
+        $data = Contact::latest()->get();
+        return response()->json($data,200);
     }
 
     public function postStore(Request $request)
     {
+        $request->validate([
+           'name' => 'required',
+           'email' => 'required|unique:contacts',
+           'phone' => 'required',
+        ]);
         $newContact = new Contact;
         $newContact->name = $request->name;
         $newContact->email = $request->email;
@@ -23,7 +33,7 @@ class ContactController extends Controller
         return response()->json($newContact,200);
     }
 
-    public function postEdit($id)
+    public function contactEdit($id)
     {
          $contact = Contact::find($id);
          if ($contact){
@@ -34,13 +44,25 @@ class ContactController extends Controller
          }
     }
 
-    public function postUpdate(Request $request,$id)
+    public function contactUpdate(Request $request,$id)
     {
-        $contact = Contact::find(26);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:contacts',
+            'phone' => 'required',
+        ]);
+
+        $contact = Contact::findorFail($id);
         $contact->name = $request->name;
         $contact->email = $request->email;
         $contact->phone = $request->phone;
         $contact->save();
         return response()->json($contact,200);
+    }
+
+    public function contactDelete($id)
+    {
+        $delete_contact = Contact::destroy($id);
+        return response()->json($delete_contact,200);
     }
 }

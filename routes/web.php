@@ -17,10 +17,11 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 Route::get('/', 'ContactController@getIndex');
+Route::get('get-contact', 'ContactController@getData');
 Route::post('contacts/store', 'ContactController@postStore');
-Route::get('contacts/edit/{id}', 'ContactController@postEdit');
-Route::post('contacts/update/{id}', 'ContactController@postUpdate');
-Route::post('admin/contacts/delete', 'ContactController@postDelete');
+Route::get('contact/edit/{id}', 'ContactController@contactEdit');
+Route::post('contact/update/{id}', 'ContactController@contactUpdate');
+Route::post('contact/delete/{id}', 'ContactController@contactDelete');
 
 Route::get('ajax','TeacherController@index');
 Route::get('ajax/get-all','TeacherController@getData');

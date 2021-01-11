@@ -247,7 +247,7 @@
                cancelButton: 'btn btn-danger'
            },
            buttonsStyling: false
-       })
+       });
 
        swalWithBootstrapButtons.fire({
            title: 'Are you sure?',

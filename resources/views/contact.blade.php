@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <title>Laravel & Ajax CRUD Application!</title>
 </head>
 <body>
@@ -39,19 +40,19 @@
                             </tr>
                             </thead>
                             <tbody id="contactTable">
-                            @php($i=0)
-                            @foreach($data as $contact)
-                                <tr data-id = {{$contact->id}}>
-                                    <td>{{$i+=1}}</td>
-                                    <td>{{$contact->name}}</td>
-                                    <td>{{$contact->email}}</td>
-                                    <td>{{$contact->phone}}</td>
-                                    <td style="width:150px">
-                                        <a href="#" data-toggle="modal" value="{{$contact->id}}" data-target="#editModal" class="btn btn-sm btn-primary" id="edit">Edit</a>
-                                        <a href="#" data-toggle="modal" value="{{$contact->id}}" data-target="#deleteTask"  class="btn btn-sm btn-danger delete">Delete</a>
-                                    </td>
-                                </tr>
-                                @endforeach
+
+
+{{--                                <tr>--}}
+{{--                                    <td></td>--}}
+{{--                                    <td></td>--}}
+{{--                                    <td></td>--}}
+{{--                                    <td></td>--}}
+{{--                                    <td style="width:150px">--}}
+{{--                                        <a href="#" data-toggle="modal" data-target="#editModal" class="btn btn-sm btn-primary" id="edit">Edit</a>--}}
+{{--                                        <a href="#" data-toggle="modal" data-target="#deleteTask"  class="btn btn-sm btn-danger delete">Delete</a>--}}
+{{--                                    </td>--}}
+{{--                                </tr>--}}
+
                             </tbody>
                         </table>
                     </div>
@@ -62,7 +63,7 @@
 </section>
 
 <!-- Create Modal -->
-<div class="modal fade" id="createContact" tabindex="-1" role="dialog" aria-labelledby="createTaskTitle" aria-hidden="true">
+<div class="modal fade" id="createContact" tabindex="-1" role="dialog" aria-labelledby="createContact" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <form id="contactForm">
@@ -77,20 +78,23 @@
                     <div id="createTaskMessage"></div>
                     <div class="form-group">
                         <label for="">Name</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Enter task name">
+                        <input type="text" class="form-control" id="name" placeholder="Enter task name">
+                        <span id="nameErrorMsg" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label for="">Email</label>
-                        <input type="text" class="form-control" name="email" id="email" placeholder="Enter task name">
+                        <input type="text" class="form-control" id="email" placeholder="Enter task name">
+                        <span id="emailErrorMsg" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label for="">Phone</label>
-                        <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter task name">
+                        <input type="text" class="form-control" id="phone" placeholder="Enter task name">
+                        <span id="phoneErrorMsg" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success">Create Task</button>
+                    <button class="btn btn-success" onclick="createContact()">Create Task</button>
                 </div>
             </form>
         </div>
@@ -112,20 +116,24 @@
                     <div id="editTaskMessage"></div>
                     <div class="form-group">
                         <label for="">Name</label>
-                        <input type="text" id="name" class="form-control" name="name" placeholder="Enter task name">
+                        <input type="text" id="nameEdit" class="form-control"  placeholder="Enter task name">
+                        <span id="nameErrorMsg" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label for="">Email</label>
-                        <input type="text" id="email" class="form-control" name="email" placeholder="Enter task name">
+                        <input type="text" id="emailEdit" class="form-control"  placeholder="Enter task name">
+                        <span id="emailErrorMsg" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label for="">Phone</label>
-                        <input type="text" id="phone" class="form-control" name="phone" placeholder="Enter task name">
+                        <input type="text" id="phoneEdit" class="form-control" placeholder="Enter task name">
+                        <input type="hidden" id="id">
+                        <span id="phoneErrorMsg" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success">Update Task</button>
+                    <button type="button" class="btn btn-success" onclick="updateContact()">Update</button>
                 </div>
             </form>
         </div>
@@ -159,6 +167,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="{{asset('js/sweet-alert.js')}}"></script>
 <script src="{{asset('js/main.js')}}"></script>
 </body>
 </html>
